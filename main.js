@@ -1,3 +1,4 @@
+
 let img = [
     { src: "photos/download (1).jpg", title: "Turkish coffee" ,desc: "15$" },
     { src: "photos/download (2).jpg", title: "Mocha" ,desc: "15$" },
@@ -10,40 +11,27 @@ let img = [
 let most = document.getElementById("most");
 
 if(most){
-    most.style.display = "flex";
-    most.style.flexWrap = "wrap";
-    most.style.justifyContent = "center";
-    most.style.gap = "20px";
-    most.style.padding = "10px";
-
-    img.forEach(e => {
-        let ImagDiv = document.createElement("div");
-        ImagDiv.className = "ImagDiv";
-        
-        ImagDiv.style.width = "100%";
-        ImagDiv.style.maxWidth = "280px";
-        ImagDiv.style.minWidth = "240px";
-        ImagDiv.style.boxSizing = "border-box";
-        
-        ImagDiv.innerHTML = `
-            <img src="${e.src}" style="width: 100%; height: auto; display: block; border-radius: 8px;">
-            <h2> ${e.title} </h2>
-            <p> ${e.desc} </p>
-        `;
-        most.appendChild(ImagDiv);
-    });
+img.forEach(e => {
+    let ImagDiv = document.createElement("div");
+    ImagDiv.className= "ImagDiv";
+    ImagDiv.innerHTML =` <img src="${e.src}">
+        <h2> ${e.title} </h2>
+        <p> ${e.desc} </p>
+    `;
+    most.appendChild(ImagDiv);
+});
 }
+
 
 let logo = document.querySelector(".logo");
-if(logo) {
-    logo.onclick = function() {
-        window.scrollTo({
-            left: 0,
-            top: 0,
-            behavior: "smooth"
-        });
-    };
-}
+
+logo.onclick = function() {
+    window.scrollTo({
+        left: 0,
+        top: 0,
+        behavior: "smooth"
+    });
+};
 
 let imgMenuJs = [
     { src: "photos/download (1).jpg", title: "Turkish coffee" ,price: "15$", category: "Hot", source: "roasted coffee" },
@@ -59,57 +47,42 @@ let imgMenuJs = [
     { src: "photos/download (11).jpg", title: "Cheesecake" ,price: "15$", category: "Sweet" , source: "roasted coffee"},
     { src: "photos/images (2).jpg", title: "Cappuccino" ,price: "15$", category: "Hot" , source: "roasted coffee"},
 ];
-
 let imgMenu = document.querySelector(".imgMenu");
 
 function change (check = "All"){
-    if(imgMenu){
-        imgMenu.innerHTML = ""; 
-        
-        imgMenu.style.display = "flex";
-        imgMenu.style.flexWrap = "wrap";
-        imgMenu.style.justifyContent = "center";
-        imgMenu.style.gap = "20px";
-        imgMenu.style.padding = "10px";
+if(imgMenu){
+    imgMenu.innerHTML = ""; 
+imgMenuJs.forEach(element => {
+    if (check === "All" || element.category === check)
+    {
+    let Imenu =document.createElement("div");
+    Imenu.className = "Imenu";
+    Imenu.innerHTML =` <img src="${element.src}">
+        <h2> ${element.title} </h2>
+        <p class = "price"> ${element.price} </p>
+    `;
+    let features  = document.createElement("div");
+    features.className = "features";
+    features.style.display = "none";
 
-        imgMenuJs.forEach(element => {
-            if (check === "All" || element.category === check) {
-                let Imenu = document.createElement("div");
-                Imenu.className = "Imenu";
-                
-                Imenu.style.width = "100%";
-                Imenu.style.maxWidth = "280px";
-                Imenu.style.minWidth = "240px";
-                Imenu.style.boxSizing = "border-box";
+    let talk = document.createElement("p");
+    talk.textContent = element.source;
+    talk.style.color = "#F5DEB3";   
+    
+    let back = document.createElement("button");
+    back.className = "but-back";
+    back.textContent="Back";
 
-                Imenu.innerHTML = `
-                    <img src="${element.src}" style="width: 100%; height: auto; display: block; border-radius: 8px;">
-                    <h2> ${element.title} </h2>
-                    <p class="price"> ${element.price} </p>
-                `;
+    back.onclick = (e) =>{ e.stopPropagation(); change('All'); }
 
-                let features = document.createElement("div");
-                features.className = "features";
-                features.style.display = "none";
+    features.appendChild(talk);
+    features.appendChild(back);
+    Imenu.appendChild(features);
 
-                let talk = document.createElement("p");
-                talk.textContent = element.source;
-                talk.style.color = "#F5DEB3";   
-                
-                let back = document.createElement("button");
-                back.className = "but-back";
-                back.textContent = "Back";
-
-                back.onclick = (e) => { e.stopPropagation(); change('All'); }
-
-                features.appendChild(talk);
-                features.appendChild(back);
-                Imenu.appendChild(features);
-
-                Imenu.onclick = function(){
-                    showSource(this);
-                }
-                imgMenu.appendChild(Imenu);
+    Imenu.onclick = function(){
+        showSource(this);
+    }
+    imgMenu.appendChild(Imenu);
             }
         });
     }
@@ -121,15 +94,17 @@ function showSource(see){
         if(del !== see) del.style.display = "none"; 
     });
 
-    see.style.width = "100%";
-    see.style.maxWidth = "600px"; 
+    see.style.gridColumn = "1 / -1"; 
     
     let features = see.querySelector(".features");
     if (features) features.style.display = "block";
 
     let price = see.querySelector(".price");
     if (price) price.style.display = "none";
+
+
 }
+
 
 let buttons = document.querySelectorAll(".type-drink");
 buttons.forEach(btn => {
@@ -148,21 +123,3 @@ if(buttons.length > 0) {
     buttons[0].classList.add("active");
 }
 
-
-const firstHeader = document.querySelector(".first");
-if (firstHeader) {
-    firstHeader.style.display = "flex";
-    firstHeader.style.flexWrap = "wrap";
-    // firstHeader.style.justifyContent = "space-around";
-    firstHeader.style.alignItems = "center";
-    firstHeader.style.gap = "80px";
-    firstHeader.style.padding = "10px";
-}
-
-const buttonContainer = document.querySelector(".buttons-container, .menu-buttons"); 
-if(buttonContainer) {
-    buttonContainer.style.display = "flex";
-    buttonContainer.style.flexWrap = "wrap";
-    buttonContainer.style.justifyContent = "center";
-    buttonContainer.style.gap = "10px";
-}
